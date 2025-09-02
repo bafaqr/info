@@ -1,78 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BAFA QR Code</title>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js" defer></script>
   <style>
+    :root {
+      --primary-color: #f66a9b;
+      --primary-dark: #d7265b;
+      --accent-color: #fbb03b;
+      --text-dark: #333;
+      --text-muted: #444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f66a9b, #fbb03b);
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
       color: #fff;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
+      min-height: 100vh;
+      padding: 20px;
     }
+
     .card {
       background: #fff;
-      color: #333;
-      padding: 20px;
+      color: var(--text-dark);
+      padding: 24px;
       border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      max-width: 400px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 420px;
       text-align: center;
     }
+
     h2 {
-      color: #d7265b;
-      margin-bottom: 10px;
+      color: var(--primary-dark);
+      font-size: 1.8rem;
+      margin-bottom: 4px;
     }
+
+    p {
+      margin-bottom: 16px;
+      font-weight: bold;
+      color: var(--text-muted);
+    }
+
     .info {
       text-align: left;
-      font-size: 14px;
-      margin-bottom: 15px;
-      line-height: 1.5em;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      word-wrap: break-word;
     }
+
     #qrcode {
-      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
     }
+
     .btn {
-      background: #f66a9b;
-      color: white;
-      padding: 10px 18px;
+      background: var(--primary-color);
+      color: #fff;
+      padding: 12px 20px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 14px;
-      margin-top: 15px;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 250px;
+      margin: 0 auto;
+      transition: background 0.3s;
     }
+
     .btn:hover {
-      background: #d7265b;
+      background: var(--primary-dark);
+    }
+
+    /* Tablet */
+    @media (max-width: 768px) {
+      h2 {
+        font-size: 1.6rem;
+      }
+      .info {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 1.4rem;
+      }
+      .info {
+        font-size: 0.9rem;
+      }
+      .btn {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+      }
     }
   </style>
 </head>
 <body>
-
-  <div class="card">
+  <main class="card">
     <h2>Farida Yeasmin</h2>
-    <p><strong>Executive Director</strong></p>
+    <p>Executive Director</p>
 
-    <div class="info">
-      📍 2172 Starling Avenue<br>
-      Bronx, NY-10462<br><br>
-      📞 Cell: 347-387-7897<br>
-      💳 Zelle: 917-795-9299<br><br>
-      ✉️ Email: bafa.inc.usa@gmail.com<br>
-      🌐 Website: www.Bafausa.org<br>
-      📘 Facebook: facebook.com/bafa.usa<br>
+    <section class="info">
+      📍 2172 Starling Avenue<br />
+      Bronx, NY-10462<br /><br />
+      📞 Cell: 347-387-7897<br />
+      💳 Zelle: 917-795-9299<br /><br />
+      ✉️ Email: bafa.inc.usa@gmail.com<br />
+      🌐 Website: www.Bafausa.org<br />
+      📘 Facebook: facebook.com/bafa.usa<br />
       📸 Instagram: bafa.usa
-    </div>
+    </section>
 
-    <div id="qrcode"></div>
+    <div id="qrcode" aria-label="QR code will appear here"></div>
     <button class="btn" onclick="downloadQR()">Download QR</button>
-  </div>
+  </main>
 
   <script>
     const textData = `Name: Farida Yeasmin
@@ -90,14 +147,21 @@ Facebook: facebook.com/bafa.usa
 Instagram: bafa.usa`;
 
     // Generate QR Code
-    QRCode.toCanvas(document.createElement('canvas'), textData, { width: 250 }, function (err, canvas) {
-      if (err) console.error(err);
-      document.getElementById('qrcode').appendChild(canvas);
+    window.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.createElement('canvas');
+      QRCode.toCanvas(canvas, textData, { width: 250 }, function (err) {
+        if (err) {
+          console.error('QR Code generation failed:', err);
+          return;
+        }
+        document.getElementById('qrcode').appendChild(canvas);
+      });
     });
 
     // Download QR Code
     function downloadQR() {
       const canvas = document.querySelector('#qrcode canvas');
+      if (!canvas) return;
       const link = document.createElement('a');
       link.href = canvas.toDataURL("image/png");
       link.download = "farida_yeasmin_qr.png";
