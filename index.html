@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BAFA QR Code</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f66a9b, #fbb03b);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: #fff;
+      color: #333;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      max-width: 400px;
+      text-align: center;
+    }
+    h2 {
+      color: #d7265b;
+      margin-bottom: 10px;
+    }
+    .info {
+      text-align: left;
+      font-size: 14px;
+      margin-bottom: 15px;
+      line-height: 1.5em;
+    }
+    #qrcode {
+      margin-top: 20px;
+    }
+    .btn {
+      background: #f66a9b;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+    .btn:hover {
+      background: #d7265b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Farida Yeasmin</h2>
+    <p><strong>Executive Director</strong></p>
+
+    <div class="info">
+      📍 2172 Starling Avenue<br>
+      Bronx, NY-10462<br><br>
+      📞 Cell: 347-387-7897<br>
+      💳 Zelle: 917-795-9299<br><br>
+      ✉️ Email: bafa.inc.usa@gmail.com<br>
+      🌐 Website: www.Bafausa.org<br>
+      📘 Facebook: facebook.com/bafa.usa<br>
+      📸 Instagram: bafa.usa
+    </div>
+
+    <div id="qrcode"></div>
+    <button class="btn" onclick="downloadQR()">Download QR</button>
+  </div>
+
+  <script>
+    const textData = `Name: Farida Yeasmin
+Title: Executive Director
+
+Address: 2172 Starling Avenue
+Bronx, NY-10462
+
+Cell: 347-387-7897
+Zelle: 917-795-9299
+
+Email: bafa.inc.usa@gmail.com
+Website: www.Bafausa.org
+Facebook: facebook.com/bafa.usa
+Instagram: bafa.usa`;
+
+    // Generate QR Code
+    QRCode.toCanvas(document.createElement('canvas'), textData, { width: 250 }, function (err, canvas) {
+      if (err) console.error(err);
+      document.getElementById('qrcode').appendChild(canvas);
+    });
+
+    // Download QR Code
+    function downloadQR() {
+      const canvas = document.querySelector('#qrcode canvas');
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL("image/png");
+      link.download = "farida_yeasmin_qr.png";
+      link.click();
+    }
+  </script>
+</body>
+</html>
